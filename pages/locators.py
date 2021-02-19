@@ -20,3 +20,9 @@ class ProductPageLocators():
     BOOK_NAME_IN_PAGE = (By.TAG_NAME, "h1")
 
     BOOK_PRICE_IN_PAGE = (By.CLASS_NAME, "col-sm-6.product_main .price_color")
+
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, "#messages > div:nth-child(1)")
+
+class BasePageLocators():
+    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    #LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
