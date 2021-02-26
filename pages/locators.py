@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
 
 
+# файл с локаторами, каждый класс нужен для своей отдельной страницы. Каждый локатор необходим для поиска обьекта на
+# странице.
 class MainPageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
 
@@ -18,6 +20,7 @@ class LoginPageLocators():
 
     REGISTER_PASS2 = (By.CSS_SELECTOR, "#id_registration-password2")
 
+
 class ProductPageLocators():
     BUSKET_LINK = (By.CSS_SELECTOR, "#add_to_basket_form > button")
 
@@ -31,13 +34,14 @@ class ProductPageLocators():
 
     SUCCESS_MESSAGE = (By.CSS_SELECTOR, "#messages > div:nth-child(1)")
 
+
 class BasePageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
-    #LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
 
     BASKET_LINK = (By.XPATH, '//*[@id="default"]/header/div[1]/div/div[2]/span/a')
 
     USER_ICON = (By.XPATH, '//*[@id="top_page"]/div[2]/div/ul/li[1]/a/i')
+
 
 class BasketPageLocators():
     BASKET_NOTIFICATION = (By.CSS_SELECTOR, "#content_inner > p")
