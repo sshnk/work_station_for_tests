@@ -1,8 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-# файл с локаторами, каждый класс нужен для своей отдельной страницы. Каждый локатор необходим для поиска обьекта на
-# странице.
+
 class MainPageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
 
