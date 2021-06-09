@@ -5,8 +5,7 @@ from .pages.login_page import LoginPage
 import time
 
 
-# параметрезируем тест и проверяем разные промо акции. Что бы не дублировать тест - мы его параметризируем и
-# проверяем сразу 10 промо акций в одном тесте.
+
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer2",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer3",
@@ -23,53 +22,51 @@ import time
 @pytest.mark.need_review
 def test_guest_can_add_product_to_basket(browser, link):
     page = ProductPage(browser,
-                       link)  # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
-    page.open()  # открываем страницу
-    page.should_not_be_success_message()  # бинарная проверка, блок с алертом, что в карзину что то добавлено не
-    # должен быть отображен
-    page.message_should_disappeared()  # Дополнительная проверка, что такой алерт вообще присутствует, но в нашем
-    # случае не появился.
-    page.add_product_to_basket()  # Нажимаем на кнопку "Добавить в корзину"
-    page.solve_quiz_and_get_code()  # Посчитать результат математического выражения и ввести ответ
-    page.should_be_alert_for_book_name()  # Бинарные проверки на появление алерта.
-    page.should_be_alert_that_said_book_was_added()  # Бинарные проверки на появление алерта.
-    page.books_names_should_be_the_same()  # Название товара в сообщении должно совпадать с тем товаром, который вы
-    # действительно добавили.
-    page.books_prices_should_be_the_same()  # Цена должна соответствовать заявленой.
+                       link)  
+    page.open()  
+    page.should_not_be_success_message()  
+    
+    page.message_should_disappeared()  
+    page.add_product_to_basket()  
+    page.solve_quiz_and_get_code()  
+    page.should_be_alert_for_book_name()  
+    page.should_be_alert_that_said_book_was_added()  
+    page.books_names_should_be_the_same()  
+    page.books_prices_should_be_the_same()  
 
 
-# специально сломанный тест для проверок - он помечен маркером
+
 @pytest.mark.xfail(reason="broken test for tasks")
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
     page = ProductPage(browser, link)
     page.open()
     page.add_product_to_basket()
-    page.should_not_be_success_message()  # Бинарная проверка на отсутствие уведамления
+    page.should_not_be_success_message()  
 
 
 def test_guest_cant_see_success_message(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
     page = ProductPage(browser, link)
     page.open()
-    page.should_not_be_success_message()  # Бинарная проверка на отсутствие уведамления
+    page.should_not_be_success_message()  
 
 
-# специально сломанный тест для проверок - он помечен маркером
+
 @pytest.mark.xfail(reason="broken test for tasks")
 def test_message_disappeared_after_adding_product_to_basket(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
     page = ProductPage(browser, link)
     page.open()
     page.add_product_to_basket()
-    page.message_should_disappeared()  # уведомление должно пропадать
+    page.message_should_disappeared()  
 
 
 def test_guest_should_see_login_link_on_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
     page.open()
-    page.should_be_login_link()  # ожидаем url с соответствующим параметром
+    page.should_be_login_link()  
 
 
 @pytest.mark.need_review
@@ -77,7 +74,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
     page.open()
-    page.go_to_login_page()  # у пользователя есть возможность перейти на страницу с логином
+    page.go_to_login_page()  
 
 
 @pytest.mark.need_review
@@ -85,15 +82,15 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
     page.open()
-    page.go_to_basketpage()  # у пользователя есть возможность перейти на страницу "Корзина"
+    page.go_to_basketpage()  
     basket_page = BasketPage(browser, browser.current_url)
-    basket_page.should_not_be_notification()  # корзина должна быть пуста
-    basket_page.should_not_be_product_notification()  # уведомлений не должно быть
+    basket_page.should_not_be_notification()  
+    basket_page.should_not_be_product_notification()  
 
 
 class TestUserAddToBasketFromProductPage():
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser):  # создаём рандомного нового юзера перед проверками
+    def setup(self, browser):  
         link = "http://selenium1py.pythonanywhere.com/ru/accounts/login/"
         page = LoginPage(browser, link)
         page.open()
@@ -108,10 +105,8 @@ class TestUserAddToBasketFromProductPage():
         page.should_not_be_success_message()
 
     @pytest.mark.need_review
-    def test_user_can_add_product_to_basket(self, browser):  # все тесты которые делались для гостевого пользователя,
-        # делаем для залогиненого пользователя
-        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer4"  # сылку взяли с
-        # промоофером, дополнительно проверить, что промо акции для залогиненого пользователя работают.
+    def test_user_can_add_product_to_basket(self, browser):  
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer4"  
         page = ProductPage(browser, link)
         page.open()
         page.should_not_be_success_message()
